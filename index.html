@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Animação Básica</title>
+    <style>
+      body{
+        width: 1000px;
+        margin: auto;
+        text-align: center;
+      }
+      canvas{
+        border: 1px solid black;
+        background-color: grey;
+      }
+    </style>
+    <script src="./js/script.js"></script>
+  </head>
+  <body>
+    <div>Tecle "Enter" para iniciar</div>
+    <canvas id="canvas" width="1000" height="600">
+    </canvas>
+    <script>
+    var antes = new Date();
+    var agora = new Date();
+    var dt = 0;
+    var fps = 0;
+    var eCanvas = document.getElementsByTagName("canvas")[0];
+    var ctx  = eCanvas.getContext("2d");
+    var pc = new Sprite();
+    pc.x = 10;
+    pc.y = 50;
+    pc.ax = 0;
+    pc.ay = 2;
+    pc.g = 5;
+    pc.color = "blue";
+
+    function passo(){
+      requestAnimationFrame(passo);
+      agora = new Date();
+      dt = (agora - antes)/1000;
+      ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
+      pc.mover(dt);
+      pc.desenhar(ctx);
+      antes = agora;
+      pc.vy = pc.vy + (pc.ay * pc.g) * dt;
+      pc.vx = pc.vx + (pc.ax * dt);
+      pc.testaColisao(dt);
+    }
+
+    addEventListener("keydown", teclaPressionada);
+    addEventListener("keyup", teclaSolta);
+
+    function teclaPressionada(evento){
+      switch (evento.keyCode) {
+        case 37:
+            pc.ax = pc.ax -1;
+          evento.preventDefault();
+          break;
+        case 39:
+          pc.ax = pc.ax +1;
+          evento.preventDefault();
+          break;
+        case 38:
+          pc.g = pc.g-1;
+          evento.preventDefault();
+          break;
+        case 13:
+          pc.ay=2;
+          requestAnimationFrame(passo);
+          break;
+      }
+    }
+
+    function teclaSolta(evento){
+      switch (evento.keyCode) {
+        case 38:
+          pc.g = 10;
+        break;
+      }
+    }
+
+    </script>
+  </body>
+</html>
