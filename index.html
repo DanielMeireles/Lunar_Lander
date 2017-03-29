@@ -22,7 +22,6 @@
     var dt = 0;
     var fps = 0;
     var level = 1;
-    var tamanhoBase = 100;
 
     var eCanvas = document.getElementsByTagName("canvas")[0];
     eCanvas.width = 500;
@@ -43,7 +42,7 @@
     pc.level = 1;
     pc.tamanhoBase = 100 / level;
     pc.vidas = 3;
-    pc.color = "white";
+    pc.color = "grey";
 
 
 
@@ -55,7 +54,7 @@
       agora = new Date();
       dt = (agora - antes)/1000;
       ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
-      ctx.fillStyle = "yellow";
+      ctx.fillStyle = "white";
       ctx.font = "0.8em Arial Black";
       ctx.fillText("fps: " + Math.floor(1/dt), 10, 20);
       ctx.fillText("Vidas: " + pc.vidas, 10, 40);
@@ -64,14 +63,13 @@
 
       pc.mover(dt);
       pc.desenhar(ctx);
-      pc.desenharBase(ctx);
       pc.colidiuCom(ctx);
 
 
 
 
 
-      tamanhoBase = 100 / (level / 2);
+      pc.tamanhoBase = 100 / (level / 2);
 
 
       antes = agora;
@@ -82,36 +80,6 @@
     addEventListener("keydown", teclaPressionada);
 
     addEventListener("keyup", teclaSolta);
-
-    function teclaPressionada(evento){
-      switch (evento.keyCode){
-        case 37:
-          pc.ax = pc.ax - 1;
-          evento.preventDefault();
-          break;
-        case 39:
-          pc.ax = pc.ax + 1;
-          evento.preventDefault();
-          break;
-        case 38:
-          pc.ay = pc.ay - 1;
-          evento.preventDefault();
-          break;
-      }
-    }
-
-    function teclaSolta(evento){
-      switch (evento.keyCode){
-        case 37:
-        case 39:
-          pc.ax = 0;
-          break;
-        case 38:
-          pc.ay = 2;
-          break;
-      }
-    }
-
 
     function teclaPressionada(evento){
       switch (evento.keyCode){
