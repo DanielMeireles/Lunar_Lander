@@ -2,83 +2,161 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Animação Básica</title>
+    <title>Lunar Lander</title>
     <style>
       body{
-        width: 1000px;
+        width: 500px;
         margin: auto;
         text-align: center;
-      }
-      canvas{
-        border: 1px solid black;
-        background-color: grey;
       }
     </style>
     <script src="./js/script.js"></script>
   </head>
   <body>
-    <div>Tecle "Enter" para iniciar</div>
-    <canvas id="canvas" width="1000" height="600">
+    <h1>Lunar Lander</h1>
+    <canvas>
     </canvas>
     <script>
     var antes = new Date();
     var agora = new Date();
     var dt = 0;
     var fps = 0;
+    var level = 1;
+    var tamanhoBase = 100;
+
     var eCanvas = document.getElementsByTagName("canvas")[0];
+    eCanvas.width = 500;
+    eCanvas.height = 300;
+    eCanvas.style = "border: 1px solid black; background-color: black"
     var ctx  = eCanvas.getContext("2d");
-    var pc = new Sprite();
-    pc.x = 10;
+
+    var  pc = new Sprite();
+    pc.x = eCanvas.width/2;
     pc.y = 50;
+    pc.baseX = Math.random()*eCanvas.width;
+    pc.baseY = eCanvas.height-3;
     pc.ax = 0;
     pc.ay = 2;
-    pc.g = 5;
-    pc.color = "blue";
+    pc.vx = 0;
+    pc.vy = 0;
+    pc.g = 30;
+    pc.level = 1;
+    pc.tamanhoBase = 100 / level;
+    pc.vidas = 3;
+    pc.color = "white";
 
+
+
+
+
+    requestAnimationFrame(passo);
     function passo(){
       requestAnimationFrame(passo);
       agora = new Date();
       dt = (agora - antes)/1000;
       ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
+      ctx.fillStyle = "yellow";
+      ctx.font = "0.8em Arial Black";
+      ctx.fillText("fps: " + Math.floor(1/dt), 10, 20);
+      ctx.fillText("Vidas: " + pc.vidas, 10, 40);
+      ctx.fillText("Level: " + level, 420, 20);
+
+
       pc.mover(dt);
       pc.desenhar(ctx);
+      pc.desenharBase(ctx);
+      pc.colidiuCom(ctx);
+
+
+
+
+
+      tamanhoBase = 100 / (level / 2);
+
+
       antes = agora;
       pc.vy = pc.vy + (pc.ay * pc.g) * dt;
       pc.vx = pc.vx + (pc.ax * dt);
-      pc.testaColisao(dt);
     }
 
     addEventListener("keydown", teclaPressionada);
+
     addEventListener("keyup", teclaSolta);
 
     function teclaPressionada(evento){
-      switch (evento.keyCode) {
+      switch (evento.keyCode){
         case 37:
-            pc.ax = pc.ax -1;
+          pc.ax = pc.ax - 1;
           evento.preventDefault();
           break;
         case 39:
-          pc.ax = pc.ax +1;
+          pc.ax = pc.ax + 1;
           evento.preventDefault();
           break;
         case 38:
-          pc.g = pc.g-1;
+          pc.ay = pc.ay - 1;
           evento.preventDefault();
-          break;
-        case 13:
-          pc.ay=2;
-          requestAnimationFrame(passo);
           break;
       }
     }
 
     function teclaSolta(evento){
-      switch (evento.keyCode) {
+      switch (evento.keyCode){
+        case 37:
+        case 39:
+          pc.ax = 0;
+          break;
         case 38:
-          pc.g = 10;
-        break;
+          pc.ay = 2;
+          break;
       }
     }
+
+
+    function teclaPressionada(evento){
+      switch (evento.keyCode){
+        case 37:
+          pc.ax = pc.ax - 1;
+          evento.preventDefault();
+          break;
+        case 39:
+          pc.ax = pc.ax + 1;
+          evento.preventDefault();
+          break;
+        case 38:
+          pc.ay = pc.ay - 1;
+          evento.preventDefault();
+          break;
+          case 13:
+            if (pc.vidas == 0){
+              ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
+              pc.x = eCanvas.width/2;
+              pc.y = 50;
+              pc.vx = 0;
+              pc.vy = 0;
+              pc.vidas = 3;
+              level = 1;
+              pc.baseY = eCanvas.height-3;
+              pc.baseX = Math.random()*eCanvas.width;
+            }
+            evento.preventDefault();
+            break;
+      }
+    }
+
+    function teclaSolta(evento){
+      switch (evento.keyCode){
+        case 37:
+        case 39:
+          pc.ax = 0;
+          break;
+        case 38:
+          pc.ay = 2;
+          break;
+      }
+    }
+
+
 
     </script>
   </body>
