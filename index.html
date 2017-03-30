@@ -22,13 +22,11 @@
     var dt = 0;
     var fps = 0;
     var level = 1;
-
     var eCanvas = document.getElementsByTagName("canvas")[0];
     eCanvas.width = 500;
     eCanvas.height = 300;
     eCanvas.style = "border: 1px solid black; background-color: black"
     var ctx  = eCanvas.getContext("2d");
-
     var  pc = new Sprite();
     pc.x = eCanvas.width/2;
     pc.y = 50;
@@ -38,16 +36,11 @@
     pc.ay = 2;
     pc.vx = 0;
     pc.vy = 0;
-    pc.g = 30;
+    pc.g = 20;
     pc.level = 1;
-    pc.tamanhoBase = 100 / level;
+    pc.tamanhoBase = 100;
     pc.vidas = 3;
     pc.color = "grey";
-
-
-
-
-
     requestAnimationFrame(passo);
     function passo(){
       requestAnimationFrame(passo);
@@ -55,44 +48,29 @@
       dt = (agora - antes)/1000;
       ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
       ctx.fillStyle = "white";
-      ctx.font = "0.8em Arial Black";
-      ctx.fillText("fps: " + Math.floor(1/dt), 10, 20);
-      ctx.fillText("Vidas: " + pc.vidas, 10, 40);
-      ctx.fillText("Level: " + level, 420, 20);
-
-
+      ctx.font = "0.7em Arial Black";
+      ctx.fillText("Vidas: " + pc.vidas, 10, 20);
+      ctx.fillText("Level: " + level, 10, 40);
       pc.mover(dt);
       pc.desenhar(ctx);
       pc.colidiuCom(ctx);
-
-
-
-
-
       pc.tamanhoBase = 100 / (level / 2);
-
-
       antes = agora;
-      pc.vy = pc.vy + (pc.ay * pc.g) * dt;
-      pc.vx = pc.vx + (pc.ax * dt);
     }
-
     addEventListener("keydown", teclaPressionada);
-
     addEventListener("keyup", teclaSolta);
-
     function teclaPressionada(evento){
       switch (evento.keyCode){
         case 37:
-          pc.ax = pc.ax - 1;
+          pc.ax = pc.ax - 10;
           evento.preventDefault();
           break;
         case 39:
-          pc.ax = pc.ax + 1;
+          pc.ax = pc.ax + 10;
           evento.preventDefault();
           break;
         case 38:
-          pc.ay = pc.ay - 1;
+          pc.ay--;
           evento.preventDefault();
           break;
           case 13:
@@ -111,7 +89,6 @@
             break;
       }
     }
-
     function teclaSolta(evento){
       switch (evento.keyCode){
         case 37:
@@ -123,9 +100,6 @@
           break;
       }
     }
-
-
-
     </script>
   </body>
 </html>

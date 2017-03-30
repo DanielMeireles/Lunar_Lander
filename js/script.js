@@ -10,12 +10,12 @@ function Sprite(){
   this.vidas = 0;
   this.color = "";
   this.tamanhoBase = 0;
-
   this.mover = function(dt){
+    this.vy = this.vy + (this.ay * this.g) * dt;
+    this.vx = this.vx + (this.ax * dt);
     this.x = this.x + this.vx*dt;
     this.y = this.y + this.vy*dt;
   }
-
   this.desenhar = function(ctx){
     if (pc.vidas>0){
       ctx.fillStyle = this.color;
@@ -23,7 +23,6 @@ function Sprite(){
       if (this.tamanhoBase < 10){
         this.tamanhoBase = 10;
       }
-
       else if (this.baseX + this.tamanhoBase > eCanvas.width){
         this.baseX = eCanvas.width - this.tamanhoBase;
       }
@@ -38,17 +37,10 @@ function Sprite(){
       ctx.font = "1em Arial Black";
       var texto = "Tecle enter para reiniciar";
       ctx.fillText(texto, 140, 180);
-      this.x = 0;
-      this.y = 0;
       this.vx = 0;
       this.vy = 0;
-      this.baseY = 1000;
     }
-    ctx.fillStyle = "white";
-    ctx.font = "1em Arial Black";
   }
-
-
   this.colidiuCom = function(alvo){
     if(this.y > eCanvas.height-13 && this.x > this.baseX && this.x < (this.baseX + this.tamanhoBase)) {
       if(this.vy < 100 && Math.abs(this.vx) < 60){
@@ -67,13 +59,13 @@ function Sprite(){
         this.vx = 0;
       }
     }else if(this.x < 0 || this.y < 0 || this.x > eCanvas.width-10 || this.y > eCanvas.height-10){
+        this.vidas--;
         this.y=10;
         this.vy=0;
         this.x=eCanvas.width/2;
         this.vx=0;
         this.ax=0;
         this.ay=2;
-        this.vidas--;
       }
     }
 }
