@@ -14,7 +14,7 @@ function Sprite(){
   this.vidas = 0;
   this.color = "";
   this.mover = function(dt){
-    this.vy = this.vy + (this.ay * this.g) * dt;
+    this.vy = this.vy + (this.ay + this.g) * dt;
     this.vx = this.vx + (this.ax * dt);
     this.x = this.x + this.vx * dt;
     this.y = this.y + this.vy * dt;
@@ -80,7 +80,7 @@ function Level(){
 }
 function colidiuCom(){
   if(pc.y > eCanvas.height-13 && pc.x > level.baseX && pc.x < (level.baseX + level.tamanhoBase - pc.largura)) {
-    if(pc.vy < 100 && Math.abs(pc.vx) < 60){
+    if(pc.vy < 30 && Math.abs(pc.vx) < 30){//Altera os valores aceitaveis para pouso
       pc.vidas++;
       level.level++;
       level.baseX = Math.random()*eCanvas.width;
@@ -115,7 +115,7 @@ function teclaPressionada(evento){
       evento.preventDefault();
       break;
     case 38:
-      pc.ay--;
+      pc.ay = pc.ay - 2;
       evento.preventDefault();
       break;
       case 13:
