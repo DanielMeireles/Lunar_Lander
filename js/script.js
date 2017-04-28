@@ -115,7 +115,7 @@ function teclaPressionada(evento){
       evento.preventDefault();
       break;
     case 38:
-      pc.ay = -32;
+      pc.ay = -30;
       evento.preventDefault();
       break;
       case 13:
