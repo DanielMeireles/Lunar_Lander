@@ -107,15 +107,15 @@ function resetaValores(){
 function teclaPressionada(evento){
   switch (evento.keyCode){
     case 37:
-      pc.ax--;
+      pc.ax = -10;
       evento.preventDefault();
       break;
     case 39:
-      pc.ax++;
+      pc.ax = 10;
       evento.preventDefault();
       break;
     case 38:
-      pc.ay = pc.ay - 2;
+      pc.ay = -32;
       evento.preventDefault();
       break;
       case 13:
@@ -143,7 +143,7 @@ function teclaSolta(evento){
       pc.ax = 0;
       break;
     case 38:
-      pc.ay = 1;
+      pc.ay = 0;
       break;
   }
 }
