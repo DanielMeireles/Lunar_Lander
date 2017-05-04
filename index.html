@@ -19,6 +19,13 @@
     <script>
       var antes = new Date();
       var agora = new Date();
+      var vidas = 3;//Altera a quantidade de vidas inicial
+      var verificador = 3;//Se 0 está em jogo / Se 1 perdeu vida / Se 2 passou de nivel e ganhou 1 vida / Se 3 não foi iniciado
+      var scoreInicial = 120;//Altera o Score Inicial
+      var score = 0;
+      var scoreLevel = 0;
+      var level = 1;//Level inicial
+      var combustivelTotal = 1;
       var dt = 0;
       var fps = 0;
       var eCanvas = document.getElementsByTagName("canvas")[0];
@@ -26,11 +33,8 @@
       eCanvas.height = 300;
       eCanvas.style = "border: 1px solid black; background-color: black"
       var ctx = eCanvas.getContext("2d");
-      var  pc = new Sprite();
-        pc.verificador = 3;
-        pc.scoreInicial = 120;//Altera o Score Inicial
-        pc.score = 0;
-        pc.scoreLevel = 0;
+
+      var pc = new Sprite();
         pc.g = 20;//Altera a gravidade
         pc.x = eCanvas.width/2;
         pc.y = 50;
@@ -40,35 +44,34 @@
         pc.vy = 0;
         pc.altura = 10;//Altera a altura da nave
         pc.largura = 10;//Altera a largura da nave
-        pc.vidas = 3;//Altera a quantidade de vidas inicial
         pc.color = "grey";//Altera a cor da nave
-      var level = new Level();
-        level.tamanhoBaseInicial = 100;//Altera o tamanho da base de pouso
-        level.tamanhoBase = 0;
-        level.level = 1;//Level inicial
-        level.baseX = Math.random()*eCanvas.width;//Posição X da base
-        level.baseY = eCanvas.height-3;//Posição Y da base
+
+      var plataforma = new Sprite();
+        plataforma.altura = 3;
+        plataforma.x = Math.random()*eCanvas.width;
+        plataforma.y = eCanvas.height-plataforma.altura;//Posição Y da base
+        plataforma.color = "gold";
+
+      var combustivel = new Sprite();
+        combustivel.x = 0;
+        combustivel.y = 0;
+        combustivel.altura = 5;
+
       requestAnimationFrame(passo);
       function passo(){
         requestAnimationFrame(passo);
         agora = new Date();
         dt = (agora - antes)/1000;
         ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
-        ctx.fillStyle = "white";
-        ctx.font = "0.7em Arial Black";
-        ctx.textAlign="left";
-        ctx.fillText("Vidas: " + pc.vidas, 10, 10);
-        ctx.fillText("Level: " + level.level, 10, 25);
-        ctx.textAlign="right";
-        ctx.fillText("Score Level: " + pc.scoreLevel.toFixed(), eCanvas.width - 10, 25);
-        ctx.fillText("Score: " + pc.score.toFixed(), eCanvas.width - 10, 10);
-        pc.mover(dt);
+        atualizaValores();
+        pc.mover(dt);        
+        combustivel.desenhar(ctx);
         pc.desenhar(ctx);
+        plataforma.desenhar(ctx);
+        telas(ctx);
         colidiuCom();
         antes = agora;
       }
-      addEventListener("keydown", teclaPressionada);
-      addEventListener("keyup", teclaSolta);
     </script>
   </body>
 </html>
