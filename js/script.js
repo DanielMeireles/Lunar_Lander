@@ -33,7 +33,7 @@ function resetaValores(){
 }
 
 function colidiuCom(){
-  if(pc.y > eCanvas.height-13 && pc.x > plataforma.x && pc.x < (plataforma.x + plataforma.largura - pc.largura)) {
+  if(pc.y > eCanvas.height-pc.altura-plataforma.altura && pc.x > plataforma.x && pc.x < (plataforma.x + plataforma.largura - pc.largura)) {
     if(pc.vy < 30 && Math.abs(pc.vx) < 30){//Altera os valores aceitaveis para pouso
       vidas++;
       level++;

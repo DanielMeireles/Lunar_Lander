@@ -27,7 +27,6 @@
       var level = 1;//Level inicial
       var combustivelTotal = 1;
       var dt = 0;
-      var fps = 0;
       var eCanvas = document.getElementsByTagName("canvas")[0];
       eCanvas.width = 500;
       eCanvas.height = 300;
@@ -47,7 +46,7 @@
         pc.color = "grey";//Altera a cor da nave
 
       var plataforma = new Sprite();
-        plataforma.altura = 3;
+        plataforma.altura = 2;
         plataforma.x = Math.random()*eCanvas.width;
         plataforma.y = eCanvas.height-plataforma.altura;//Posição Y da base
         plataforma.color = "gold";
@@ -55,7 +54,7 @@
       var combustivel = new Sprite();
         combustivel.x = 0;
         combustivel.y = 0;
-        combustivel.altura = 5;
+        combustivel.altura = 3;
 
       requestAnimationFrame(passo);
       function passo(){
@@ -64,7 +63,7 @@
         dt = (agora - antes)/1000;
         ctx.clearRect(0, 0, eCanvas.width, eCanvas.height);
         atualizaValores();
-        pc.mover(dt);        
+        pc.mover(dt);
         combustivel.desenhar(ctx);
         pc.desenhar(ctx);
         plataforma.desenhar(ctx);
