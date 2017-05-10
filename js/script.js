@@ -9,6 +9,7 @@ function Sprite(){
   this.altura = 0;
   this.largura = 0;
   this.color = "";
+  this.consumindo = false;
 }
 
 Sprite.prototype.mover = function(dt){
@@ -118,19 +119,16 @@ function atualizaValores(){
     pc.ay = 0;
   }
   combustivel.largura = combustivelTotal;
-  if (combustivel.largura > eCanvas.width/2){
-    combustivel.color = "#2ecc71";
-  } else if (combustivel.largura < eCanvas.width/2 && combustivel.largura > eCanvas.width/4){
-    combustivel.color = "#f1c40f";
-  } else {
-    combustivel.color = "#e74c3c";
-  }
+  combustivel.color = "hsl("+combustivel.largura/eCanvas.width*120+",100%,50%)";
   if (plataforma.x + plataforma.largura > eCanvas.width){
     plataforma.x = eCanvas.width - plataforma.largura;
   }
   plataforma.largura = eCanvas.width/level;
   if (plataforma.largura < pc.largura){
     plataforma.largura = pc.largura;
+  }
+  if (pc.consumindo == true){
+    combustivelTotal = combustivelTotal - dt*20;
   }
 }
 
@@ -140,17 +138,17 @@ function teclaPressionada(evento){
     switch (evento.keyCode){
       case 37:
           pc.ax = -10;
-          combustivelTotal--;
+          pc.consumindo = true;
         evento.preventDefault();
         break;
       case 39:
           pc.ax = 10;
-          combustivelTotal--;
+          pc.consumindo = true;
         evento.preventDefault();
         break;
       case 38:
           pc.ay = -30;
-          combustivelTotal--;
+          pc.consumindo = true;
         evento.preventDefault();
         break;
         case 13:
@@ -179,9 +177,11 @@ function teclaSolta(evento){
     case 37:
     case 39:
       pc.ax = 0;
+      pc.consumindo = false;
       break;
     case 38:
       pc.ay = 0;
+      pc.consumindo = false;
       break;
   }
 }
