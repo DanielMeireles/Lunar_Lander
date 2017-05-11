@@ -71,6 +71,60 @@
         colidiuCom();
         antes = agora;
       }
+
+      addEventListener("keydown", teclaPressionada);
+      function teclaPressionada(evento){
+        if (combustivelTotal > 0){
+          switch (evento.keyCode){
+            case 37:
+                pc.ax = -10;
+                pc.consumindo = true;
+              evento.preventDefault();
+              break;
+            case 39:
+                pc.ax = 10;
+                pc.consumindo = true;
+              evento.preventDefault();
+              break;
+            case 38:
+                pc.ay = -30;
+                pc.consumindo = true;
+              evento.preventDefault();
+              break;
+              case 13:
+                if (vidas == 0){
+                  vidas = 3;
+                  level = 1;
+                  plataforma.x = Math.random()*eCanvas.width;
+                  score = 0;
+                  scoreLevel = scoreInicial;
+                  combustivelTotal = eCanvas.width;
+                }
+                if (verificador == 1 || verificador == 2 || verificador == 3){
+                  verificador = 0;
+                  scoreLevel = scoreInicial;
+                  combustivelTotal = eCanvas.width;
+                }
+                evento.preventDefault();
+                break;
+            }
+          }
+      }
+
+      addEventListener("keyup", teclaSolta);
+      function teclaSolta(evento){
+        switch (evento.keyCode){
+          case 37:
+          case 39:
+            pc.ax = 0;
+            pc.consumindo = false;
+            break;
+          case 38:
+            pc.ay = 0;
+            pc.consumindo = false;
+            break;
+        }
+      }
     </script>
   </body>
 </html>
